@@ -1,0 +1,8 @@
+一、服务注册中心集群搭建，在此集群中只有两个节点，在启动注册中心时指定参数-Dspring.profile.active=profile1或
+-Dspring.profile.active=profile2来确定启动的节点。
+
+二、服务注册中心中每个节点的名称必须保持一致，即spring.application.name属性值一致。
+
+三、服务注册中心集群中每个节点需要把自己的信息注册到其他节点中。
+
+四、在启动类上添加@EnableEurekaServer注解，表示该应用是一个服务注册中心。
