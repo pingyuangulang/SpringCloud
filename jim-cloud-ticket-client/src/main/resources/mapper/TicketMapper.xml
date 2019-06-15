@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jim.cloud.mapper.TicketMapper" >
+  <resultMap id="BaseResultMap" type="com.jim.cloud.po.Ticket" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="lave_num" property="laveNum" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, `name`, lave_num, price, start_time, end_time, `status`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from `ticket`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from `ticket`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jim.cloud.po.Ticket" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `ticket` (`name`, lave_num, price, 
+      start_time, end_time, `status`
+      )
+    values (#{name,jdbcType=VARCHAR}, #{laveNum,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{status,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jim.cloud.po.Ticket" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `ticket`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        `name`,
+      </if>
+      <if test="laveNum != null" >
+        lave_num,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="laveNum != null" >
+        #{laveNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jim.cloud.po.Ticket" >
+    update `ticket`
+    <set >
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="laveNum != null" >
+        lave_num = #{laveNum,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jim.cloud.po.Ticket" >
+    update `ticket`
+    set `name` = #{name,jdbcType=VARCHAR},
+      lave_num = #{laveNum,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      `status` = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
