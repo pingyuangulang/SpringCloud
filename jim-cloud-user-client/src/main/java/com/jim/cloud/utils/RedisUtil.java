@@ -60,4 +60,16 @@ public class RedisUtil {
         }
         return value;
     }
+
+    /**
+     * 删除缓存
+     * @param key
+     * @return
+     */
+    @MethodParamNotNullOrEmpty
+    public boolean delStr(String key) {
+        Boolean flag = redisTemplate.delete(key);
+        flag = Objects.isNull(flag) ? false : flag;
+        return flag;
+    }
 }
