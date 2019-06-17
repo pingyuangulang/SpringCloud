@@ -1,4 +1,4 @@
-package com.jim.cloud.utils;
+package com.jim.cloud.util;
 
 import org.springframework.beans.BeanUtils;
 
