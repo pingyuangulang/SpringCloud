@@ -1,4 +1,4 @@
-package com.jim.cloud.utils;
+package com.jim.cloud.util;
 
 /**
  * 常量类

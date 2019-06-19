@@ -1,4 +1,4 @@
-package com.jim.cloud.utils;
+package com.jim.cloud.util;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
