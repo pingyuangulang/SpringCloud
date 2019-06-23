@@ -1,6 +1,6 @@
 package com.jim.cloud.controller;
 
-import com.jim.cloud.vo.BaseSingleResponse;
+import com.jim.cloud.response.vo.BaseSingleResponse;
 import com.jim.cloud.vo.UserVo;
 
 /**

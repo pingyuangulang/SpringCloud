@@ -1,33 +1,37 @@
-package com.jim.cloud.vo;
+package com.jim.cloud.response.vo;
 
+import lombok.Data;
+
+import java.util.List;
 
 /**
- * 接口统一返回类型（单个数据对象）
+ * 接口统一返回类型（数据对象集合）
  *
  * @author jim
- * @date 2019/6/15 23:51
+ * @date 2019/6/15 23:54
  */
-public class BaseSingleResponse<T> {
+@Data
+public class BaseListResponse<T> {
 
     private int code;
 
     private String msg;
 
-    private T data;
+    private List<T> data;
 
-    public BaseSingleResponse() {
+    public BaseListResponse() {
         this.code = 200;
         this.msg = "success";
         this.data = null;
     }
 
-    public BaseSingleResponse(int code, String msg) {
+    public BaseListResponse(int code, String msg) {
         this.code = code;
         this.msg = msg;
         this.data = null;
     }
 
-    public BaseSingleResponse(int code, String msg, T data) {
+    public BaseListResponse(int code, String msg, List<T> data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
@@ -41,21 +45,21 @@ public class BaseSingleResponse<T> {
         return msg;
     }
 
-    public T getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public BaseSingleResponse setCode(int code) {
+    public BaseListResponse setCode(int code) {
         this.code = code;
         return this;
     }
 
-    public BaseSingleResponse setMsg(String msg) {
+    public BaseListResponse setMsg(String msg) {
         this.msg = msg;
         return this;
     }
 
-    public BaseSingleResponse setData(T data) {
+    public BaseListResponse setData(List<T> data) {
         this.data = data;
         return this;
     }

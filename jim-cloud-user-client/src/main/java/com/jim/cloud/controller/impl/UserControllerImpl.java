@@ -5,7 +5,7 @@ import com.jim.cloud.po.User;
 import com.jim.cloud.service.UserService;
 import com.jim.cloud.util.FastJsonUtil;
 import com.jim.cloud.util.PojoUtils;
-import com.jim.cloud.vo.BaseSingleResponse;
+import com.jim.cloud.response.vo.BaseSingleResponse;
 import com.jim.cloud.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

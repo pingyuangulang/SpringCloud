@@ -51,13 +51,26 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public TicketVo selectByPrimaryKey(Long id) {
-        return null;
+        String key = generateKey(id);
+        Ticket ticket = redisUtil.getStr(key, Ticket.class);
+        if (Objects.isNull(ticket)) {
+            ticket = ticketMapper.selectByPrimaryKey(id);
+            redisUtil.setStr(key, ticket);
+        }
+        TicketVo vo = new TicketVo();
+        PojoUtils.copyProperties(ticket, vo);
+        return vo;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public TicketVo updateByPrimaryKeySelective(Ticket record) {
-        return null;
+        String key = generateKey(record.getId());
+        int update = ticketMapper.updateByPrimaryKeySelective(record);
+        opsCache(update > 0, record, CacheOpsType.DELETE);
+        TicketVo vo = new TicketVo();
+        PojoUtils.copyProperties(record, vo);
+        return vo;
     }
 
     /**
