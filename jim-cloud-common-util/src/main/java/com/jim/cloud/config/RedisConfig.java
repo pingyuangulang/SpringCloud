@@ -29,7 +29,7 @@ public class RedisConfig {
     @Bean("redisTemplate")
     public RedisTemplate<String, String> createRedisTemplateBean(RedisConnectionFactory factory) {
 
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<String, String>();
         redisTemplate.setConnectionFactory(factory);
 
         // 设置json序列化格式
