@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jim.cloud.mapper.extend.OrderLogExtendMapper" >
 
+    <select id="findByUserId" resultMap="com.jim.cloud.mapper.OrderLogMapper.BaseResultMap">
+        SELECT
+        <include refid="com.jim.cloud.mapper.OrderLogMapper.Base_Column_List"/>
+        FROM order_log
+        WHERE user_id = #{userId} AND status = 0;
+    </select>
 </mapper>

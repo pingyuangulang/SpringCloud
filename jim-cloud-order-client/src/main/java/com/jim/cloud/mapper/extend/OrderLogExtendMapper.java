@@ -1,5 +1,9 @@
 package com.jim.cloud.mapper.extend;
 
+import com.jim.cloud.po.OrderLog;
+
+import java.util.List;
+
 /**
  * 订单表扩展接口
  *
@@ -8,4 +12,11 @@ package com.jim.cloud.mapper.extend;
  */
 public interface OrderLogExtendMapper {
 
+    /**
+     * SELECT * FROM order_log WHERE user_id = #{userId} AND status = 0;
+     *
+     * @param userId
+     * @return
+     */
+    List<OrderLog> findByUserId(Long userId);
 }
