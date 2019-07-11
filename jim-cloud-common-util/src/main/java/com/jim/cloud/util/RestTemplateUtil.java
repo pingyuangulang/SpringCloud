@@ -1,6 +1,8 @@
 package com.jim.cloud.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.util.Map;
@@ -14,9 +16,9 @@ import java.util.Map;
 @Component
 public class RestTemplateUtil {
 
+
     @Autowired
     private RestTemplate restTemplate;
-
 
     public <T> T getForObject(String url, Class<T> type, Map<String, ?> map) {
         return restTemplate.getForObject(url, type, map);
