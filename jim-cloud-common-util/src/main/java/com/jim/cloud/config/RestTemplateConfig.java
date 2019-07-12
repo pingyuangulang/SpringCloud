@@ -4,7 +4,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +21,11 @@ import org.springframework.web.client.RestTemplate;
 @EnableAutoConfiguration
 public class RestTemplateConfig {
 
-    @Autowired
-    private RestTemplateBuilder restTemplateBuilder;
-
     @Bean
-    public RestTemplate restTemplate() {
-//        RestTemplate restTemplate = new RestTemplate(requestFactory());
-//        return restTemplate;
-        return restTemplateBuilder.build();
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.setRequestFactory(requestFactory());
+        return restTemplate;
     }
 
     /**
