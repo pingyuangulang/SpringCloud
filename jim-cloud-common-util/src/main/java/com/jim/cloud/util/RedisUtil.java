@@ -1,8 +1,13 @@
 package com.jim.cloud.util;
 
 import com.jim.cloud.annotation.MethodParamNotNullOrEmpty;
+import io.lettuce.core.LettuceStrings;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.lettuce.LettuceSentinelConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/6/15 12:58
  */
 @Component
+@Slf4j
 public class RedisUtil {
 
     @Autowired
@@ -71,5 +77,30 @@ public class RedisUtil {
         Boolean flag = redisTemplate.delete(key);
         flag = Objects.isNull(flag) ? false : flag;
         return flag;
+    }
+
+    /**
+     * setnx 指令
+     * key不存在，则添加；存在，则什么都不做
+     *
+     * @param key
+     * @param value
+     * @param timeout
+     * @return
+     */
+    public boolean setnx(String key, String value, int timeout) {
+        boolean success;
+        try {
+            success = redisTemplate.opsForValue().setIfAbsent(key, value, timeout, TimeUnit.SECONDS);
+            if (success) {
+                redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
+            }
+        } catch (Exception e) {
+            StringBuilder sb = new StringBuilder("lock failed");
+            sb.append(" key:{").append(key).append("} value:{").append(value).append("}");
+            log.error(sb.toString(), e);
+            success = false;
+        }
+        return success;
     }
 }

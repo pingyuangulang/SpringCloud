@@ -10,10 +10,10 @@ import java.lang.annotation.*;
  * @date 2019/7/18 11:12
  */
 @Documented
-@Target(value = {ElementType.METHOD, ElementType.TYPE})
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DistributedLock {
 
-    /** 锁的自动释放时间,单位:秒 */
-    int timeout();
+    /** 锁的自动释放时间,单位:秒 ,默认2秒*/
+    int timeout() default 2;
 }
