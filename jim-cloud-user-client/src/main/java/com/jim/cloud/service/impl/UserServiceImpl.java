@@ -1,8 +1,10 @@
 package com.jim.cloud.service.impl;
 
 import com.jim.cloud.enums.CacheOpsType;
+import com.jim.cloud.error.exception.ServiceException;
 import com.jim.cloud.mapper.UserMapper;
 import com.jim.cloud.po.User;
+import com.jim.cloud.service.BaseService;
 import com.jim.cloud.service.UserService;
 import com.jim.cloud.util.PojoUtils;
 import com.jim.cloud.util.RedisUtil;
@@ -19,7 +21,7 @@ import java.util.Objects;
  * @date 2019/6/15 22:29
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -29,12 +31,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserVo deleteByPrimaryKey(Long id) {
+    public UserVo deleteByPrimaryKey(Long id) throws ServiceException {
         UserVo userVo = selectByPrimaryKey(id);
         int del = userMapper.deleteByPrimaryKey(id);
         User user = new User();
         PojoUtils.copyProperties(userVo, user);
         opsCache(del > 0, user, CacheOpsType.DELETE);
+        if (Objects.isNull(userVo)) {
+            throw createError("1001");
+        }
         return userVo;
     }
 

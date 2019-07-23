@@ -1,5 +1,6 @@
 package com.jim.cloud.service;
 
+import com.jim.cloud.error.exception.ServiceException;
 import com.jim.cloud.po.User;
 import com.jim.cloud.vo.UserVo;
 
@@ -11,7 +12,7 @@ import com.jim.cloud.vo.UserVo;
  */
 public interface UserService {
 
-    UserVo deleteByPrimaryKey(Long id);
+    UserVo deleteByPrimaryKey(Long id) throws ServiceException;
 
     UserVo insert(User record);
 
