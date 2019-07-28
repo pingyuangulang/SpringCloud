@@ -30,7 +30,7 @@ public class DistributedLockHandler {
     @Autowired
     private RedisUtil redisUtil;
 
-    @Pointcut("execution(public * *..*.*(..)) && @annotation(com.jim.cloud.annotation.DistributedLock)")
+    @Pointcut("execution(public * *(..)) && @annotation(com.jim.cloud.annotation.DistributedLock)")
     public void pointCut() {}
 
     @Around("pointCut()")

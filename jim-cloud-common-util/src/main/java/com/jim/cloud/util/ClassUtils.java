@@ -1,6 +1,5 @@
-package com.jim.cloud.aspectj;
+package com.jim.cloud.util;
 
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -10,8 +9,7 @@ import java.lang.reflect.Method;
  * @author jib
  * @date 2019/7/23 14:40
  */
-@Component
-public class ClassUtil {
+public class ClassUtils {
 
     /**
      * 获取方法参数类型列表
@@ -19,7 +17,7 @@ public class ClassUtil {
      * @param method
      * @return
      */
-    public String methodParamType(Method method) {
+    public static String methodParamType(Method method) {
         Class[] paramClazz = method.getParameterTypes();
         StringBuilder paramType = new StringBuilder("(");
         int length = paramClazz.length;

@@ -1,6 +1,7 @@
 package com.jim.cloud.controller.impl;
 
 import com.jim.cloud.controller.UserController;
+import com.jim.cloud.error.exception.ServiceException;
 import com.jim.cloud.po.User;
 import com.jim.cloud.service.UserService;
 import com.jim.cloud.util.FastJsonUtil;
@@ -34,7 +35,13 @@ public class UserControllerImpl implements UserController {
     public BaseSingleResponse<UserVo> deleteByPrimaryKey(@PathVariable("id") Long id) {
         log.info("删除用户：入参id={}", id);
         BaseSingleResponse<UserVo> response = new BaseSingleResponse<>();
-        UserVo userVo = userService.deleteByPrimaryKey(id);
+        UserVo userVo = null;
+        try {
+            userVo = userService.deleteByPrimaryKey(id);
+        } catch (ServiceException e) {
+            response.setCode(Integer.valueOf(e.getCode()));
+            response.setMsg(e.getMsg());
+        }
         response.setData(userVo);
         log.info("删除用户：返参={}", fastJsonUtil.toJsonString(response));
         return response;

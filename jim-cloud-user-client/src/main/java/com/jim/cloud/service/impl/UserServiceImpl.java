@@ -9,6 +9,7 @@ import com.jim.cloud.service.UserService;
 import com.jim.cloud.util.PojoUtils;
 import com.jim.cloud.util.RedisUtil;
 import com.jim.cloud.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import java.util.Objects;
  * @date 2019/6/15 22:29
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends BaseService implements UserService {
 
     @Autowired
@@ -62,6 +64,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         User user = redisUtil.getStr(generateKey(id), User.class);
         if (Objects.isNull(user)) {
             user = userMapper.selectByPrimaryKey(id);
+            opsCache(Objects.nonNull(user), user, CacheOpsType.INSERT);
         }
         UserVo userVo = new UserVo();
         PojoUtils.copyProperties(user, userVo);

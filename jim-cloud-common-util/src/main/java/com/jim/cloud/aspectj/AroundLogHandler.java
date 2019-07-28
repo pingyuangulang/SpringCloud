@@ -1,10 +1,13 @@
 package com.jim.cloud.aspectj;
 
+import com.jim.cloud.util.ClassUtils;
 import com.jim.cloud.util.FastJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,24 +17,23 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
+
+
 /**
  * 对控制层的接口打印请求进入和返回的日志
  *
  * @author jib
  * @date 2019/7/23 14:04
  */
-@Component
 @Aspect
+@Component
 @Slf4j
 public class AroundLogHandler {
 
     @Autowired
-    private ClassUtil classUtil;
-
-    @Autowired
     private FastJsonUtil fastJsonUtil;
 
-    @Pointcut("execution(public * *.*(..))")
+    @Pointcut(value = "execution(public com.jim.cloud..* *(..))")
     public void pointCut() {}
 
     /**
@@ -125,7 +127,7 @@ public class AroundLogHandler {
         // 方法名
         String methodName = method.getName();
         // 参数类型集合
-        String paramType = classUtil.methodParamType(method);
+        String paramType = ClassUtils.methodParamType(method);
         StringBuilder sb = new StringBuilder();
         sb.append(className).append(".").append(methodName).append(paramType);
         return sb.toString();
