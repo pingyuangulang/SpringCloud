@@ -1,7 +1,7 @@
 package com.jim.cloud.aspectj;
 
 import com.jim.cloud.util.ClassUtils;
-import com.jim.cloud.util.FastJsonUtil;
+import com.jim.cloud.util.FastJsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -31,7 +31,7 @@ import java.util.Objects;
 public class AroundLogHandler {
 
     @Autowired
-    private FastJsonUtil fastJsonUtil;
+    private FastJsonUtils fastJsonUtils;
 
     @Pointcut(value = "execution(public com.jim.cloud..* *(..))")
     public void pointCut() {}
@@ -70,7 +70,7 @@ public class AroundLogHandler {
             StringBuilder paramValue = new StringBuilder();
             for (int i = 0; i < length; i++) {
                 paramValue.append("第").append(i + 1).append("个参数:");
-                paramValue.append(fastJsonUtil.toJsonString(args[i]));
+                paramValue.append(fastJsonUtils.toJsonString(args[i]));
                 if (i < length - 1) {
                     paramValue.append(",");
                 }
@@ -95,7 +95,7 @@ public class AroundLogHandler {
         if (void.class.equals(returnType)) {
             log.info("方法:{}执行完毕,耗时:{}ms,该方法没有返回参数", classMethodName, timeUse);
         } else {
-            String resultJson = fastJsonUtil.toJsonString(result);
+            String resultJson = fastJsonUtils.toJsonString(result);
             log.info("方法:{}执行完毕,耗时:{}ms,返参:{}", classMethodName, timeUse, resultJson);
         }
     }

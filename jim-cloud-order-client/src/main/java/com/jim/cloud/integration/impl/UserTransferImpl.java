@@ -3,7 +3,7 @@ package com.jim.cloud.integration.impl;
 import com.jim.cloud.dto.UserDto;
 import com.jim.cloud.integration.UrlConstant;
 import com.jim.cloud.integration.UserTransfer;
-import com.jim.cloud.util.RestTemplateUtil;
+import com.jim.cloud.util.RestTemplateUtils;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class UserTransferImpl implements UserTransfer {
 
     @Autowired
-    private RestTemplateUtil restTemplateUtil;
+    private RestTemplateUtils restTemplateUtils;
 
     /**
      * 远程访问会员系统
@@ -37,7 +37,7 @@ public class UserTransferImpl implements UserTransfer {
     public UserDto userInfo(Long userId) {
         Map<String, Long> map = new HashMap<>(8);
         map.put("id", userId);
-        UserDto userDto = restTemplateUtil.getForObject(UrlConstant.USER_APP_HOST + UrlConstant.USER_GET, UserDto.class, map);
+        UserDto userDto = restTemplateUtils.getForObject(UrlConstant.USER_APP_HOST + UrlConstant.USER_GET, UserDto.class, map);
         return userDto;
     }
 

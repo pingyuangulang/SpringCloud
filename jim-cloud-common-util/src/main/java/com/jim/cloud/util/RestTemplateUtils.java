@@ -12,7 +12,7 @@ import java.util.Map;
  * @date 2019/7/1 11:05
  */
 @Component
-public class RestTemplateUtil {
+public class RestTemplateUtils {
 
 
     @Autowired

@@ -4,7 +4,7 @@ import com.jim.cloud.controller.TicketController;
 import com.jim.cloud.po.Ticket;
 import com.jim.cloud.response.vo.BaseSingleResponse;
 import com.jim.cloud.service.TicketService;
-import com.jim.cloud.util.FastJsonUtil;
+import com.jim.cloud.util.FastJsonUtils;
 import com.jim.cloud.util.PojoUtils;
 import com.jim.cloud.vo.TicketVo;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class TicketControllerImpl implements TicketController {
     private TicketService ticketService;
 
     @Autowired
-    private FastJsonUtil fastJsonUtil;
+    private FastJsonUtils fastJsonUtils;
 
     @Override
     @DeleteMapping("/delete/{id}")
@@ -37,20 +37,20 @@ public class TicketControllerImpl implements TicketController {
         BaseSingleResponse<TicketVo> response = new BaseSingleResponse<>();
         TicketVo ticketVo = ticketService.deleteByPrimaryKey(id);
         response.setData(ticketVo);
-        log.info("删除影票：返参={}", fastJsonUtil.toJsonString(ticketVo));
+        log.info("删除影票：返参={}", fastJsonUtils.toJsonString(ticketVo));
         return response;
     }
 
     @Override
     @PutMapping("/insert")
     public BaseSingleResponse<TicketVo> insertSelective(@RequestBody @Valid TicketVo record) {
-        log.info("添加影票：入参={}", fastJsonUtil.toJsonString(record));
+        log.info("添加影票：入参={}", fastJsonUtils.toJsonString(record));
         BaseSingleResponse<TicketVo> response = new BaseSingleResponse<>();
         Ticket ticket = new Ticket();
         PojoUtils.copyProperties(record, ticket);
         TicketVo ticketVo = ticketService.insertSelective(ticket);
         response.setData(ticketVo);
-        log.info("添加影票：返参={}", fastJsonUtil.toJsonString(ticketVo));
+        log.info("添加影票：返参={}", fastJsonUtils.toJsonString(ticketVo));
         return response;
     }
 
@@ -61,20 +61,20 @@ public class TicketControllerImpl implements TicketController {
         BaseSingleResponse<TicketVo> response = new BaseSingleResponse<>();
         TicketVo ticketVo = ticketService.selectByPrimaryKey(id);
         response.setData(ticketVo);
-        log.info("查询影票：返参={}", fastJsonUtil.toJsonString(ticketVo));
+        log.info("查询影票：返参={}", fastJsonUtils.toJsonString(ticketVo));
         return response;
     }
 
     @Override
     @PostMapping("/update")
     public BaseSingleResponse<TicketVo> updateByPrimaryKeySelective(TicketVo record) {
-        log.info("修改影票：入参={}", fastJsonUtil.toJsonString(record));
+        log.info("修改影票：入参={}", fastJsonUtils.toJsonString(record));
         BaseSingleResponse<TicketVo> response = new BaseSingleResponse<>();
         Ticket ticket = new Ticket();
         PojoUtils.copyProperties(record, ticket);
         TicketVo ticketVo = ticketService.updateByPrimaryKeySelective(ticket);
         response.setData(ticketVo);
-        log.info("修改影票：返参={}", fastJsonUtil.toJsonString(ticketVo));
+        log.info("修改影票：返参={}", fastJsonUtils.toJsonString(ticketVo));
         return response;
     }
 }

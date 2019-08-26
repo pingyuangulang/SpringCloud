@@ -1,7 +1,7 @@
 package com.jim.cloud.aspectj;
 
 import com.jim.cloud.annotation.DistributedLock;
-import com.jim.cloud.util.RedisUtil;
+import com.jim.cloud.util.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -28,7 +28,7 @@ import java.util.UUID;
 public class DistributedLockHandler {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisUtils redisUtils;
 
     @Pointcut("execution(public * *(..)) && @annotation(com.jim.cloud.annotation.DistributedLock)")
     public void pointCut() {}
@@ -118,7 +118,7 @@ public class DistributedLockHandler {
      * @return
      */
     private void lock(String key, String value, int timeout) {
-        boolean flag = redisUtil.setnx(key, value, timeout);
+        boolean flag = redisUtils.setnx(key, value, timeout);
         String loginfo = "key:{},value:{},timeout:{}s lock " + (flag ? "success" : "failed");
         log.info(loginfo, key, value, timeout);
         if (!flag) {
@@ -135,9 +135,9 @@ public class DistributedLockHandler {
      * @param value
      */
     private void unLock(String key, String value) {
-        String redisValue = redisUtil.getStr(key, String.class);
+        String redisValue = redisUtils.getStr(key, String.class);
         if (StringUtils.equals(value, redisValue)) {
-            redisUtil.delStr(key);
+            redisUtils.delStr(key);
             log.info("key:{},value:{} unLock success", key, value);
         } else {
             log.info("lock does not match,key:{},value:{},redisValue:{} unLock failed", key, value, redisValue);

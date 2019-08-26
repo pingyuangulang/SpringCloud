@@ -7,7 +7,7 @@ import com.jim.cloud.po.User;
 import com.jim.cloud.service.BaseService;
 import com.jim.cloud.service.UserService;
 import com.jim.cloud.util.PojoUtils;
-import com.jim.cloud.util.RedisUtil;
+import com.jim.cloud.util.RedisUtils;
 import com.jim.cloud.vo.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     private UserMapper userMapper;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisUtils redisUtils;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -61,7 +61,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public UserVo selectByPrimaryKey(Long id) {
-        User user = redisUtil.getStr(generateKey(id), User.class);
+        User user = redisUtils.getStr(generateKey(id), User.class);
         if (Objects.isNull(user)) {
             user = userMapper.selectByPrimaryKey(id);
             opsCache(Objects.nonNull(user), user, CacheOpsType.INSERT);
@@ -109,9 +109,9 @@ public class UserServiceImpl extends BaseService implements UserService {
         compare = compare && Objects.nonNull(type) && Objects.nonNull(record);
         if (compare) {
             if (CacheOpsType.INSERT.equals(type)) {
-                redisUtil.setStr(generateKey(record.getId()), record);
+                redisUtils.setStr(generateKey(record.getId()), record);
             } else {
-                redisUtil.delStr(generateKey(record.getId()));
+                redisUtils.delStr(generateKey(record.getId()));
             }
             userVo = new UserVo();
             PojoUtils.copyProperties(record, userVo);

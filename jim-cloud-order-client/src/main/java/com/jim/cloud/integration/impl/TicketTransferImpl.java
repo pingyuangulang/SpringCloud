@@ -3,7 +3,7 @@ package com.jim.cloud.integration.impl;
 import com.jim.cloud.dto.TicketDto;
 import com.jim.cloud.integration.TicketTransfer;
 import com.jim.cloud.integration.UrlConstant;
-import com.jim.cloud.util.RestTemplateUtil;
+import com.jim.cloud.util.RestTemplateUtils;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class TicketTransferImpl implements TicketTransfer {
 
     @Autowired
-    private RestTemplateUtil restTemplateUtil;
+    private RestTemplateUtils restTemplateUtils;
 
     /**
      * 远程访问票务系统
@@ -37,7 +37,7 @@ public class TicketTransferImpl implements TicketTransfer {
     public TicketDto ticketInfo(Long ticketId) {
         Map<String, Long> map = new HashMap<>(8);
         map.put("id", ticketId);
-        TicketDto dto = restTemplateUtil.getForObject(UrlConstant.TICKET_APP_HOST + UrlConstant.TICKET_GET, TicketDto.class, map);
+        TicketDto dto = restTemplateUtils.getForObject(UrlConstant.TICKET_APP_HOST + UrlConstant.TICKET_GET, TicketDto.class, map);
         return dto;
     }
 

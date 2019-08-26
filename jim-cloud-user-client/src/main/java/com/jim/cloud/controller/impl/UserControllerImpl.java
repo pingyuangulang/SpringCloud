@@ -4,7 +4,7 @@ import com.jim.cloud.controller.UserController;
 import com.jim.cloud.error.exception.ServiceException;
 import com.jim.cloud.po.User;
 import com.jim.cloud.service.UserService;
-import com.jim.cloud.util.FastJsonUtil;
+import com.jim.cloud.util.FastJsonUtils;
 import com.jim.cloud.util.PojoUtils;
 import com.jim.cloud.response.vo.BaseSingleResponse;
 import com.jim.cloud.vo.UserVo;
@@ -28,7 +28,7 @@ public class UserControllerImpl implements UserController {
     private UserService userService;
 
     @Autowired
-    private FastJsonUtil fastJsonUtil;
+    private FastJsonUtils fastJsonUtils;
 
     @Override
     @DeleteMapping("/delete/{id}")
@@ -43,20 +43,20 @@ public class UserControllerImpl implements UserController {
             response.setMsg(e.getMsg());
         }
         response.setData(userVo);
-        log.info("删除用户：返参={}", fastJsonUtil.toJsonString(response));
+        log.info("删除用户：返参={}", fastJsonUtils.toJsonString(response));
         return response;
     }
 
     @Override
     @PutMapping("/insert")
     public BaseSingleResponse<UserVo> insertSelective(@RequestBody @Valid UserVo record) {
-        log.info("添加用户：入参={}", fastJsonUtil.toJsonString(record));
+        log.info("添加用户：入参={}", fastJsonUtils.toJsonString(record));
         BaseSingleResponse<UserVo> response = new BaseSingleResponse<>();
         User user = new User();
         PojoUtils.copyProperties(record, user);
         UserVo userVo = userService.insertSelective(user);
         response.setData(userVo);
-        log.info("添加用户：返参={}", fastJsonUtil.toJsonString(response));
+        log.info("添加用户：返参={}", fastJsonUtils.toJsonString(response));
         return response;
     }
 
@@ -67,20 +67,20 @@ public class UserControllerImpl implements UserController {
         BaseSingleResponse<UserVo> response = new BaseSingleResponse<>();
         UserVo userVo = userService.selectByPrimaryKey(id);
         response.setData(userVo);
-        log.info("查询用户：返参={}", fastJsonUtil.toJsonString(response));
+        log.info("查询用户：返参={}", fastJsonUtils.toJsonString(response));
         return response;
     }
 
     @Override
     @PostMapping("/update")
     public BaseSingleResponse<UserVo> updateByPrimaryKeySelective(@RequestBody @Valid UserVo record) {
-        log.info("修改用户：入参={}", fastJsonUtil.toJsonString(record));
+        log.info("修改用户：入参={}", fastJsonUtils.toJsonString(record));
         BaseSingleResponse<UserVo> response = new BaseSingleResponse<>();
         User user = new User();
         PojoUtils.copyProperties(record, user);
         UserVo userVo = userService.updateByPrimaryKeySelective(user);
         response.setData(userVo);
-        log.info("修改用户：返参={}", fastJsonUtil.toJsonString(response));
+        log.info("修改用户：返参={}", fastJsonUtils.toJsonString(response));
         return response;
     }
 }

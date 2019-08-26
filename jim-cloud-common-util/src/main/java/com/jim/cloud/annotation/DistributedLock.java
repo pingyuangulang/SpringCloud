@@ -4,7 +4,8 @@ import java.lang.annotation.*;
 
 /**
  * 分布式锁
- * AOP实现参见com.jim.cloud.aspectj.DistributedLockHandler
+ * AOP实现参见
+ * @see com.jim.cloud.aspectj.DistributedLockHandler
  *
  * @author jib
  * @date 2019/7/18 11:12

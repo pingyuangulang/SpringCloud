@@ -5,7 +5,7 @@ import com.jim.cloud.mapper.TicketMapper;
 import com.jim.cloud.po.Ticket;
 import com.jim.cloud.service.TicketService;
 import com.jim.cloud.util.PojoUtils;
-import com.jim.cloud.util.RedisUtil;
+import com.jim.cloud.util.RedisUtils;
 import com.jim.cloud.vo.TicketVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class TicketServiceImpl implements TicketService {
     private TicketMapper ticketMapper;
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisUtils redisUtils;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -52,10 +52,10 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public TicketVo selectByPrimaryKey(Long id) {
         String key = generateKey(id);
-        Ticket ticket = redisUtil.getStr(key, Ticket.class);
+        Ticket ticket = redisUtils.getStr(key, Ticket.class);
         if (Objects.isNull(ticket)) {
             ticket = ticketMapper.selectByPrimaryKey(id);
-            redisUtil.setStr(key, ticket);
+            redisUtils.setStr(key, ticket);
         }
         TicketVo vo = new TicketVo();
         PojoUtils.copyProperties(ticket, vo);
@@ -96,9 +96,9 @@ public class TicketServiceImpl implements TicketService {
         compare = compare && Objects.nonNull(type) && Objects.nonNull(record);
         if (compare) {
             if (CacheOpsType.INSERT.equals(type)) {
-                redisUtil.setStr(generateKey(record.getId()), record);
+                redisUtils.setStr(generateKey(record.getId()), record);
             } else {
-                redisUtil.delStr(generateKey(record.getId()));
+                redisUtils.delStr(generateKey(record.getId()));
             }
             ticketVo = new TicketVo();
             PojoUtils.copyProperties(record, ticketVo);

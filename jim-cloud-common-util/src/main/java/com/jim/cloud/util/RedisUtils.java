@@ -1,13 +1,9 @@
 package com.jim.cloud.util;
 
 import com.jim.cloud.annotation.MethodParamNotNullOrEmpty;
-import io.lettuce.core.LettuceStrings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.lettuce.LettuceSentinelConnection;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +18,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Slf4j
-public class RedisUtil {
+public class RedisUtils {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
-    private FastJsonUtil fastJsonUtil;
+    private FastJsonUtils fastJsonUtils;
 
     /**
      * @param key
@@ -37,7 +33,7 @@ public class RedisUtil {
      */
     @MethodParamNotNullOrEmpty
     public void setStr(String key, Object value, long time) {
-        redisTemplate.opsForValue().set(key, fastJsonUtil.toJsonString(value), time, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(key, fastJsonUtils.toJsonString(value), time, TimeUnit.SECONDS);
     }
 
     /**
@@ -62,7 +58,7 @@ public class RedisUtil {
         T value = null;
         String jsonValue = redisTemplate.opsForValue().get(key);
         if (StringUtils.isNotBlank(jsonValue)) {
-            value = fastJsonUtil.json2Object(jsonValue, clazz);
+            value = fastJsonUtils.json2Object(jsonValue, clazz);
         }
         return value;
     }

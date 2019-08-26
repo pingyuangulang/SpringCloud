@@ -13,7 +13,7 @@ import java.util.Objects;
  * @date 2019/6/15 13:09
  */
 @Component
-public class FastJsonUtil {
+public class FastJsonUtils {
 
     /**
      * 对象转换为JSON串
