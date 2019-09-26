@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jim.cloud.dynamic.datasource.mapper.UserMapper" >
+
+    <resultMap id="BaseResultMap" type="com.jim.cloud.dynamic.datasource.model.User" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+        <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+        <result column="balance" property="balance" jdbcType="DECIMAL" />
+        <result column="level" property="level" jdbcType="TINYINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+    </resultMap>
+
+    <select id="findByIdFromMaster" resultMap="BaseResultMap" parameterType="long" >
+        select * from `user` where id = #{id, jdbcType=BIGINT}
+    </select>
+
+    <select id="findByIdFromslave" resultMap="BaseResultMap" parameterType="long" >
+        select * from `user` where id = #{id, jdbcType=BIGINT}
+    </select>
+</mapper>
